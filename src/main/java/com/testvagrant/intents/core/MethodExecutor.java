@@ -128,19 +128,19 @@ public class MethodExecutor {
     private List<String> getData() {
         List<String> args = new ArrayList<>();
         if(dataTable.isPresent()) {
+            int matches = matcher.groupCount() - 1;
+            if(matches>0) {
+                for (int index = 0; index <= matches; index++) {
+                    args.add(overRideData.get(index));
+                }
+                for (int index = 0; index <= matches; index++) {
+                    overRideData.remove(0);
+                }
+            }
+        } else {
             for (int groupIndex = 1; groupIndex <= matcher.groupCount(); groupIndex++) {
                 args.add(matcher.group(groupIndex));
             }
-        } else {
-                int matches = matcher.groupCount() - 1;
-                if(matches>0) {
-                    for (int index = 0; index <= matches; index++) {
-                        args.add(overRideData.get(index));
-                    }
-                    for (int index = 0; index <= matches; index++) {
-                        overRideData.remove(0);
-                    }
-                }
         }
         return args;
     }
